@@ -1,4 +1,5 @@
 import { useRef } from "react";
+import { Router } from "next/router"
 import styles from "../../styles/styles.module.scss";
 import { Form } from "@unform/web";
 import Input from "../Input Fields/Input";
@@ -44,7 +45,8 @@ export default function PersonalInfo({ formStep, nextFormStep }) {
         <div className={styles.formRow}>
           <Input name="email" label="Email" type="email" />
         </div>
-        <button type="submit">Next</button>
+        {/* <button type="submit">Next</button> */}
+        <a href="/?step=1">Next</a>
       </Form>
     </div>
   );

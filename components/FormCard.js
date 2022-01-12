@@ -6,15 +6,9 @@ export default function FormCard({ children, currentStep, prevFormStep }) {
       {currentStep < 3 && (
         <>
           {currentStep > 0 && (
-            <button
-              className={styles.back}
-              onClick={prevFormStep}
-              type="button"
-            >
-              back
-            </button>
+            <a href={`/?step=${currentStep - 1}`}>Back</a>
           )}
-
+          &nbsp;
           <span className={styles.steps}>Step {currentStep + 1} of 3</span>
         </>
       )}
