@@ -9,13 +9,14 @@ import {
   PersonalInfo,
 } from "../components/Forms";
 import FormCompleted from "../components/FormCompleted";
+import { Router } from "next/router";
 
-const App = () => {
+const App = ({pageStep}) => {
   const [formStep, setFormStep] = useState(0);
 
   const nextFormStep = () => setFormStep((currentStep) => currentStep + 1);
 
-  const prevFormStep = () => setFormStep((currentStep) => currentStep - 1);
+  const prevFormStep = () => setFormStep((currentStep) => `/?step=${currentStep - 1}`);
 
   return (
     <div className={styles.container}>
@@ -24,15 +25,15 @@ const App = () => {
       </Head>
       <h1>Unform Multi Step Form</h1>
 
-      <FormCard currentStep={formStep} prevFormStep={prevFormStep}>
-        {formStep >= 0 && (
-          <PersonalInfo formStep={formStep} nextFormStep={nextFormStep} />
+      <FormCard currentStep={pageStep} prevFormStep={prevFormStep}>
+        {pageStep >= 0 && (
+          <PersonalInfo formStep={pageStep} nextFormStep={nextFormStep} />
         )}
-        {formStep >= 1 && (
-          <BillingInfo formStep={formStep} nextFormStep={nextFormStep} />
+        {pageStep >= 1 && (
+          <BillingInfo formStep={pageStep} nextFormStep={nextFormStep} />
         )}
-        {formStep >= 2 && (
-          <ConfirmPurchase formStep={formStep} nextFormStep={nextFormStep} />
+        {pageStep >= 2 && (
+          <ConfirmPurchase formStep={pageStep} nextFormStep={nextFormStep} />
         )}
 
         {formStep > 2 && <FormCompleted />}
@@ -42,3 +43,11 @@ const App = () => {
 };
 
 export default App;
+
+export async function getServerSideProps(context) {
+  return {
+    props: {
+      pageStep: context.query.step ? parseInt(context.query.step) : 0
+    }
+  }
+}
